@@ -224,6 +224,14 @@ define([
     
                 Globals.logEvent("CONTENT_DOCUMENT_LOADED", "ON", "EpubReader.js [ " + spineItem.href + " ]");
 
+                // For Safari, the Google Analytics Opt-Out extension changes the CFI for everything.
+                // To avoid this, move it to the bottom of the HTML tag.
+                var doc = ( $iframe[0].contentWindow || $iframe[0].contentDocument ).document;
+                var problematicScriptTag = doc.getElementById('__gaOptOutExtension')
+                if(problematicScriptTag) {
+                    doc.documentElement.appendChild(problematicScriptTag);
+                }
+
                 //TODO not picked-up by all screen readers, so for now this short description will suffice
                 $iframe.attr("title", "EPUB");
                 $iframe.attr("aria-label", "EPUB");
