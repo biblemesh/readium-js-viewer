@@ -33,9 +33,13 @@
     
     "editor.wrappingColumn": 0,
     
-    "editor.quickSuggestions": false,
+    "editor.quickSuggestions": {
+        "comments": "off",
+        "strings": "off",
+        "other": "off"
+    },
 
-    "editor.autoClosingBrackets": false,
+    "editor.autoClosingBrackets": "never",
 
     "editor.scrollBeyondLastLine": false,
 
@@ -47,7 +51,9 @@
 
     "editor.folding": false,
 
-    "editor.renderWhitespace": true,
+    "editor.renderWhitespace": "boundary",
 
-    "editor.tabSize": "4"
+    "editor.tabSize": "4",
+    "editor.autoClosingQuotes": "never",
+    "editor.autoSurround": "never"
 }
