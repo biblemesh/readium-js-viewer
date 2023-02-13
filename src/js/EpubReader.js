@@ -952,7 +952,9 @@ define([
                     e.stopPropagation();
 
                     var iframe = $("#epub-reader-frame iframe")[0];
-                    if([ iframe, iframe.contentWindow ].includes(document.activeElement)) {
+                    if($('body.toadreader-viewing-wide-table').length > 0) {
+                        $('.toadreader-close-table').click();
+                    } else if([ iframe, iframe.contentWindow ].includes(document.activeElement)) {
                         showPageListView();
                     } else {
                         iframe.contentWindow.focus();
@@ -1103,6 +1105,8 @@ define([
                     return;
                 }
 
+                if($('body.toadreader-viewing-wide-table').length > 0) return;
+
                 if(touchIsClick) {
                     touchIsClick = Math.sqrt((touchPageX - e.touches[0].pageX) * 2 + (touchPageY - e.touches[0].pageY) * 2) < 4;
                     touchIsSwipe = e.target.touchIsSwipe = !touchIsClick;
@@ -1225,32 +1229,41 @@ define([
                         && Date.now() - timeAtStart < 500   // long touches should not be considered page turn taps
                         && (!e.target || !$(e.target).closest('a[href], [onclick], [onmousedown], [ontouchstart]')[0])  // it is a link/clickable, or is inside a link/clickable
                         && !mediaOverlayClicked
+                        && $('body.toadreader-viewing-wide-table').length === 0
                     ) {
 
                         e.preventDefault();
                         e.stopPropagation();
 
-                        var winWd = window.innerWidth;
-                        var sideWd = Math.max((winWd - biblemesh_COLUMN_MAX_WIDTH) / 2, 0);
-                        var pageToDirection = '';
+                        var wideTableButton = $(e.target).closest('[data-toadreader-wide-table="show-button"]')[0]
+                        if(wideTableButton) {
+                            wideTableButton.click();
+                        } else {
 
-                        if((touchPageX + sideWd) / winWd < .3) {
-                            pageToDirection = 'Left';
-                        }
+                            var winWd = window.innerWidth;
+                            var sideWd = Math.max((winWd - biblemesh_COLUMN_MAX_WIDTH) / 2, 0);
+                            var pageToDirection = '';
 
-                        if((touchPageX + sideWd) / winWd > .7) {
-                            pageToDirection = 'Right';
-                        }
-
-                        if(pageToDirection) {
-
-                            if(!spinner.willSpin && !spinner.isSpinning) {
-                                flipPage(pageToDirection, e);
+                            if((touchPageX + sideWd) / winWd < .3) {
+                                pageToDirection = 'Left';
                             }
 
-                        } else {
-                            showPageListView();
+                            if((touchPageX + sideWd) / winWd > .7) {
+                                pageToDirection = 'Right';
+                            }
+
+                            if(pageToDirection) {
+
+                                if(!spinner.willSpin && !spinner.isSpinning) {
+                                    flipPage(pageToDirection, e);
+                                }
+
+                            } else {
+                                showPageListView();
+                            }
+
                         }
+
                     
                     }
 
@@ -1549,6 +1562,10 @@ define([
             biblemesh_AppComm.subscribe('setDisplaySettings', function(payload) {
                 biblemesh_translateSettings(payload);
                 readium.reader.updateSettings(payload);
+                var iframe = $("#epub-reader-frame iframe")[0];
+                var doc = ( iframe.contentWindow || iframe.contentDocument ).document;
+                var docEl = doc.documentElement;
+                docEl.removeAttribute('data-toadreader-wide-table-last-width');
             });
 
             biblemesh_AppComm.subscribe('setSelectionText', setSelectionText);
