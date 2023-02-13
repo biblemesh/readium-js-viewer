@@ -965,6 +965,7 @@ define([
                 if(
                     !$(e.target).is('textarea, input')
                     && $(e.target).closest('[contenteditable="true"]').length == 0
+                    && $('body.toadreader-viewing-wide-table').length == 0
                     && ([37,39].indexOf(e.keyCode) != -1 || [37,39].indexOf(e.which) != -1)
                 ) {
                     e.preventDefault();
@@ -1318,7 +1319,7 @@ define([
             }
 
             readium.reader.addIFrameEventListener('selectionchange', biblemesh_showHighlightOptions, 'document');
-    
+
             var defaultSettings = {
                 fontSize: 100,
                 syntheticSpread: "auto",
@@ -1326,7 +1327,8 @@ define([
                 theme: "author-theme",
                 columnGap: 60,
                 columnMaxWidth: biblemesh_COLUMN_MAX_WIDTH,
-                columnMinWidth: 300
+                columnMinWidth: 300,
+                enableWideTableBehavior: !!biblemesh_Helpers.getURLQueryParams().enableWideTableBehavior
             }
     
             if(biblemesh_isWidget) {

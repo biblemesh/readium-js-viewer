@@ -148,6 +148,31 @@
             opacity: 1;
             cursor: pointer;
         }
+
+        .toadreader-viewing-wide-table #readium-page-btns {
+            display: none;
+        }
+
+        .toadreader-close-table {
+            position: absolute;
+            z-index: 2001;
+            top: 0;
+            right: 0;
+            width: 40px;
+            line-height: 40px;
+            font-size: 25px;
+            color: rgba(0, 0, 0, .6);
+            background-color: rgba(255, 255, 255, .6);
+            border-radius: 25px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .toadreader-close-table:hover {
+            color: black;
+            cursor: pointer;
+        }
+
     </style>
 
     <script type="text/javascript">
@@ -325,6 +350,57 @@
                         user-select: none;
                         break-inside: avoid;
                     }
+
+                    table[data-toadreader-wide-table="show-button"] {
+                        display: block !important;
+                        padding: 0 !important;
+                        border: 0 !important;
+                        margin: 1.5em 0 !important;
+                        width: auto !important;
+                        max-width: none !important;
+                        min-width: auto !important;
+                    }
+
+                    table[data-toadreader-wide-table="show-button"] > * {
+                        display: none !important;
+                    }
+
+                    table[data-toadreader-wide-table="show-button"]::before {
+                        content: "View Chart";
+                        display: block !important;
+                        border-radius: 5px;
+                        background-color: rgba(0, 0, 0, .1);
+                        transition: background-color .15s ease-in-out;
+                        padding: 15px;
+                        font-size: max(min(.85rem, 25px), 14px);
+                        text-align: center;
+                    }
+
+                    table[data-toadreader-wide-table="show-button"]:hover::before {
+                        background-color: rgba(0, 0, 0, .2);
+                        cursor: pointer;
+                    }
+
+                    table[data-toadreader-wide-table="show-table"] {
+                        position: absolute !important;
+                        z-index: 2002 !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        max-width: none !important;
+                        min-width: auto !important;
+                    }
+
+                    .toadreader-table-backdrop {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        background: white;
+                        z-index: 2000;
+                    }
+
                 `,
 
                 'jsLibRoot': HTTPServerRootFolder + '/scripts/zip/',
