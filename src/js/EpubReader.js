@@ -745,12 +745,14 @@ define([
                     ? (selectionVeryTop - tooltipHt) > (winHt / 2)
                     : (selectionVeryBottom + tooltipHt) > (winHt / 2)
 
-                biblemesh_AppComm.postMsg('textSelected', {
-                    text: selStr,
-                    spineIdRef: cfiObj.idref,
-                    cfi: cfiObj.cfi,
-                    copyTooltipInLowerHalf: copyTooltipInLowerHalf,
-                });
+                if($('body.toadreader-viewing-wide-table').length === 0) {
+                    biblemesh_AppComm.postMsg('textSelected', {
+                        text: selStr,
+                        spineIdRef: cfiObj.idref,
+                        cfi: cfiObj.cfi,
+                        copyTooltipInLowerHalf: copyTooltipInLowerHalf,
+                    });
+                }
                 biblemesh_textSelected = true
                 
             } else {
