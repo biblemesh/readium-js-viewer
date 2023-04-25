@@ -1093,6 +1093,7 @@ define([
 
             if(!biblemesh_isWebPlatform) {
                 readium.reader.addIFrameEventListener('selectionchange', function(e) {
+                    if(isTransitioning) return;
                     cancelSwipe(null, e);
                 }, 'document');
             }
