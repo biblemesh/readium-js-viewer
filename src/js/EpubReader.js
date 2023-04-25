@@ -1524,14 +1524,20 @@ define([
 
                     biblemesh_loadSpineTime = null
 
-                    biblemesh_AppComm.postMsg('pagesInfo', {
-                        spineIdRef: payload.spineIdRef,
-                        pageCfis: pageCfis,
-                        startIndex: startIndex,
-                        completed: pageIndex === numPages,
-                        // The next line might need to be throttled.
-                        toolSpotSets: pageIndex === numPages ? biblemesh_reportToolSpots(true, payload.width) : null,
-                    });
+                    // Adding the next two lines and timeout to follow to try to prevent thumbnail capture of spinners
+                    spin(false);
+                    $("#epub-reader-frame").css("opacity", "");
+
+                    setTimeout(function() {
+                        biblemesh_AppComm.postMsg('pagesInfo', {
+                            spineIdRef: payload.spineIdRef,
+                            pageCfis: pageCfis,
+                            startIndex: startIndex,
+                            completed: pageIndex === numPages,
+                            // The next line might need to be throttled.
+                            toolSpotSets: pageIndex === numPages ? biblemesh_reportToolSpots(true, payload.width) : null,
+                        });
+                    }, 10);
 
                 } else {
                     biblemesh_toolCfiCounts = payload.toolCfiCounts;
