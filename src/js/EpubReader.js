@@ -1580,6 +1580,11 @@ define([
 
             biblemesh_AppComm.postMsg('loaded');
 
+            // Android sometimes cannot do the postMsg right away, so the following are there just in case
+            setTimeout(function() { biblemesh_AppComm.postMsg('loaded'); }, 10);
+            setTimeout(function() { biblemesh_AppComm.postMsg('loaded'); }, 50);
+            setTimeout(function() { biblemesh_AppComm.postMsg('loaded'); }, 100);
+
         }
     
         var pauseAudioAndVideoTags = function(){
