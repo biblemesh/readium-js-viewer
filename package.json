@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "JSON2": "latest",
-    "bootstrap": "3.x",
+    "bootstrap": "5.x",
     "bootstrap-accessibility-plugin": "github:paypal/bootstrap-accessibility-plugin#master",
     "chai": "latest",
     "chai-as-promised": "latest",
